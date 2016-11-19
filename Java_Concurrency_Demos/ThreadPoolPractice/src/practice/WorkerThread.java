@@ -1,7 +1,5 @@
 package practice;
 
-import java.util.concurrent.CountDownLatch;
-
 public class WorkerThread implements Runnable {
 
 	private String command;
