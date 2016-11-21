@@ -2,15 +2,15 @@ package practice;
 
 public class WorkerThread implements Runnable {
 
-	private String command;
+	private String task;
 
 	public WorkerThread(String s) {
-		this.command = s;
+		this.task = s;
 	}
 
 	@Override
 	public void run() {
-		System.out.println(Thread.currentThread().getName() + " Start. Command = " + command);
+		System.out.println(Thread.currentThread().getName() + " Start. Task = " + task);
 		processCommand();
 		System.out.println(Thread.currentThread().getName() + " End.");
 	}
@@ -25,6 +25,6 @@ public class WorkerThread implements Runnable {
 
 	@Override
 	public String toString() {
-		return this.command;
+		return this.task;
 	}
 }

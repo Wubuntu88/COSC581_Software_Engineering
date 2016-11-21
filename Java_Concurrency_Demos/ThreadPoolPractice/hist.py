@@ -8,8 +8,8 @@ for item in f:
 
 plt.hist(x, bins=20)
 
-plt.xlabel("values of sample means", fontsize=20)
-plt.ylabel("number of instances of a mean", fontsize=20)
-plt.title("histogram of sample means", fontsize=26)
+plt.xlabel("values of sample means", fontsize=30)
+plt.ylabel("number of instances of a mean", fontsize=30)
+plt.title("histogram of sample means", fontsize=36)
 
 plt.show()
