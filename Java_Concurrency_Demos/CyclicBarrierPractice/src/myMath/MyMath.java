@@ -67,28 +67,40 @@ public class MyMath {
 	private double stdev = 0;
 	private int[] numbers;
 
-	private static final int NUMBER_OF_THREADS = 4;
+	Runtime runtime = Runtime.getRuntime();
+	int cores = runtime.availableProcessors();
+	
+	private final int NUMBER_OF_THREADS = cores;
 	private CyclicBarrier barrierBeforeTotal = 
 			new CyclicBarrier(NUMBER_OF_THREADS + 1, new SetMean());
 	private CyclicBarrier barrierBeforeSquaredDeviations = 
 			new CyclicBarrier(NUMBER_OF_THREADS + 1, new SetStDev());
 	
+	
 	public double stdev(int[] numbers) {
 		this.numbers = numbers;
 		
-		int quarter = this.numbers.length / 4;
-		int mid = this.numbers.length / 2;
-		int threeQuarters = quarter + mid;
-		//StdevMinion minion1 = this.new StdevMinion(0, mid);
-		//StdevMinion minion2 = this.new StdevMinion(mid, numbers.length);
-		StdevMinion minion1 = this.new StdevMinion(0, quarter);
-		StdevMinion minion2 = this.new StdevMinion(quarter, mid);
-		StdevMinion minion3 = this.new StdevMinion(mid, threeQuarters);
-		StdevMinion minion4 = this.new StdevMinion(threeQuarters, numbers.length);
-		new Thread(minion1).start();
-		new Thread(minion2).start();
-		new Thread(minion3).start();
-		new Thread(minion4).start();
+		System.out.println("cores: " + this.cores);
+		
+		if(cores <= 3){
+			int mid = this.numbers.length / 2;
+			StdevMinion minion1 = this.new StdevMinion(0, mid);
+			StdevMinion minion2 = this.new StdevMinion(mid, numbers.length);
+			new Thread(minion1).start();
+			new Thread(minion2).start();
+		}else {
+			int quarter = this.numbers.length / 4;
+			int mid = this.numbers.length / 2;
+			int threeQuarters = quarter + mid;
+			StdevMinion minion1 = this.new StdevMinion(0, quarter);
+			StdevMinion minion2 = this.new StdevMinion(quarter, mid);
+			StdevMinion minion3 = this.new StdevMinion(mid, threeQuarters);
+			StdevMinion minion4 = this.new StdevMinion(threeQuarters, numbers.length);
+			new Thread(minion1).start();
+			new Thread(minion2).start();
+			new Thread(minion3).start();
+			new Thread(minion4).start();
+		}
 		
 		try {
 			barrierBeforeTotal.await();
