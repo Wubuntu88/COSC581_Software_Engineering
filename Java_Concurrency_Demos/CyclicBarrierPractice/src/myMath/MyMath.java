@@ -70,7 +70,7 @@ public class MyMath {
 	Runtime runtime = Runtime.getRuntime();
 	int cores = runtime.availableProcessors();
 	
-	private final int NUMBER_OF_THREADS = cores;
+	private final int NUMBER_OF_THREADS = cores <= 3 ? 2 : 4;
 	private CyclicBarrier barrierBeforeTotal = 
 			new CyclicBarrier(NUMBER_OF_THREADS + 1, new SetMean());
 	private CyclicBarrier barrierBeforeSquaredDeviations = 
